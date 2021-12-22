@@ -9,6 +9,6 @@ import Help from "../pages/static_pages/help";
 describe("Help", () => {
   it("should get help", () => {
     render(<Help />);
-    expect(screen.getByText(/Help/)).toBeInTheDocument();
+    expect(screen.getByText("Help")).toBeInTheDocument();
   });
 });
