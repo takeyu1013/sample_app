@@ -7,8 +7,12 @@ import { render, screen } from "@testing-library/react";
 import Help from "../pages/static_pages/help";
 
 describe("Help", () => {
-  it("should get help", () => {
+  it("should get Help", () => {
     render(<Help />);
-    expect(screen.getByText("Help")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Help",
+      })
+    ).toBeInTheDocument();
   });
 });
