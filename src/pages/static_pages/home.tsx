@@ -4,7 +4,7 @@ import Head from "../../layouts/Head";
 const Home: NextPage = () => {
   return (
     <>
-      <Head title="Home" />
+      <Head />
       <h1>Sample App</h1>
       <p>This is the home page for the sample application.</p>
     </>

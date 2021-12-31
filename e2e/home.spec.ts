@@ -9,6 +9,6 @@ test.describe("should get home", () => {
   test("the title should be home", async ({ page }) => {
     await page.goto("/static_pages/home");
     const title = page.locator("title");
-    await expect(title).toHaveText("Home");
+    await expect(title).toHaveText("Sample App");
   });
 });

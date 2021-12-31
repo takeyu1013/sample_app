@@ -9,6 +9,6 @@ test.describe("should get help", () => {
   test("the title should be help", async ({ page }) => {
     await page.goto("/static_pages/help");
     const title = page.locator("title");
-    await expect(title).toHaveText("Help");
+    await expect(title).toHaveText("Help | Sample App");
   });
 });

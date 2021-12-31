@@ -1,14 +1,15 @@
 import NextHead from "next/head";
 import { VFC } from "react";
+import { fullTitle } from "../utils/full_title";
 
 type Props = {
-  title: string;
+  title?: string;
 };
 
 const Head: VFC<Props> = ({ title }) => {
   return (
     <NextHead>
-      <title>{title}</title>
+      <title>{fullTitle(title)}</title>
     </NextHead>
   );
 };
