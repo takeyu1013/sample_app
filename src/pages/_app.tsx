@@ -5,13 +5,15 @@ import Link from "next/link";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <header>
-        <div>
+      <div className="pb-2">
+        <header className="bg-black flex justify-between items-center px-12 py-2">
           <Link href="#">
-            <a>Sample App</a>
+            <a className="text-white font-bold text-3xl uppercase">
+              Sample App
+            </a>
           </Link>
           <nav>
-            <ul>
+            <ul className="text-gray-300 flex justify-end gap-x-8">
               <li>
                 <Link href="#">
                   <a>Home</a>
@@ -29,9 +31,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               </li>
             </ul>
           </nav>
-        </div>
-      </header>
-      <Component {...pageProps} />
+        </header>
+      </div>
+      <div className="px-12">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 }
