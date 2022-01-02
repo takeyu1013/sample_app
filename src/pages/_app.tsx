@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Link from "next/link";
+import Footer from "../layouts/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </div>
       <div className="px-12">
         <Component {...pageProps} />
+        <Footer />
       </div>
     </>
   );
