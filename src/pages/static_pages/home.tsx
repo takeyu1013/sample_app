@@ -19,7 +19,9 @@ const Home: NextPage = () => {
           Sign up now!
         </button>
       </div>
-      <Image src={logo} alt="Next.js logo" width={200} />
+      <div className="pb-12">
+        <Image src={logo} alt="Next.js logo" width={200} />
+      </div>
     </>
   );
 };

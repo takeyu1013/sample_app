@@ -3,16 +3,16 @@ import Link from "next/link";
 
 const Footer: NextPage = () => {
   return (
-    <footer>
-      <small>
+    <footer className="flex justify-between border-t-2 border-zinc-200 border-solid">
+      <small className="text-zinc-500">
         The{" "}
         <Link href="https://github.com/takeyu1013/sample_app">
-          <a>sample app</a>
+          <a className="text-zinc-600 hover:text-zinc-800">sample app</a>
         </Link>{" "}
         by takeyu1013
       </small>
       <nav>
-        <ul>
+        <ul className="flex justify-end gap-x-4">
           <li>
             <Link href="#">
               <a>About</a>
