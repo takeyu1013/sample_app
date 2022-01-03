@@ -7,7 +7,7 @@ import logo from "../../../public/nextjs-logotype-light.svg";
 const Home: NextPage = () => {
   return (
     <>
-      <div className="bg-gray-200 pt-14 pb-12">
+      <div className="bg-gray-200 pt-14 pb-11">
         <Head />
         <h1 className="text-5xl text-center pb-4 font-bold">
           Welcome to the Sample App
