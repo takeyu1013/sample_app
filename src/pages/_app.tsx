@@ -16,12 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <nav>
             <ul className="text-gray-300 flex justify-end gap-x-8">
               <li>
-                <Link href="#">
+                <Link href="/static_pages/home">
                   <a>Home</a>
                 </Link>
               </li>
               <li>
-                <Link href="#">
+                <Link href="/static_pages/help">
                   <a>Help</a>
                 </Link>
               </li>
