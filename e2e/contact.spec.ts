@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("should get contact", () => {
-  const path = "/static_pages/contact";
+  const path = "/contact";
   test("should get home", async ({ page }) => {
     const response = await page.goto(path);
     expect(response?.ok).toBeTruthy;

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import Head from "../../layouts/Head";
+import Head from "../layouts/Head";
 
 const About: NextPage = () => {
   return (

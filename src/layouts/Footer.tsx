@@ -14,12 +14,12 @@ const Footer: NextPage = () => {
       <nav>
         <ul className="flex justify-end gap-x-4">
           <li>
-            <Link href="/static_pages/about">
+            <Link href="/about">
               <a>About</a>
             </Link>
           </li>
           <li>
-            <Link href="/static_pages/contact">
+            <Link href="/contact">
               <a>Contact</a>
             </Link>
           </li>

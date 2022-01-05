@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <div className="pb-2">
         <header className="bg-black flex justify-between items-center px-12 py-2">
-          <Link href="#">
+          <Link href="/">
             <a className="text-white font-bold text-3xl uppercase">
               Sample App
             </a>
@@ -16,12 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <nav>
             <ul className="text-gray-300 flex justify-end gap-x-8">
               <li>
-                <Link href="/static_pages/home">
+                <Link href="/">
                   <a>Home</a>
                 </Link>
               </li>
               <li>
-                <Link href="/static_pages/help">
+                <Link href="/help">
                   <a>Help</a>
                 </Link>
               </li>

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Head from "../../layouts/Head";
+import Head from "../layouts/Head";
 import Link from "next/link";
 
 const Help: NextPage = () => {

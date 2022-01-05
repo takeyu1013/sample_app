@@ -4,7 +4,7 @@
 
 import { render, screen } from "@testing-library/react";
 
-import Home from "../pages/static_pages/home";
+import Home from "../pages/index";
 
 describe("Home", () => {
   it("should get Home", () => {
