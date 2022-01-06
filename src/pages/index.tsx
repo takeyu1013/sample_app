@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import Head from "../layouts/Head";
 import logo from "../../public/nextjs-logotype-light.svg";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -15,9 +16,11 @@ const Home: NextPage = () => {
         <h2 className="text-xl text-center text-gray-600 pb-4">
           This is the home page for the sample application.
         </h2>
-        <button className="block mx-auto bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2">
-          Sign up now!
-        </button>
+        <Link href="/signup">
+          <button className="block mx-auto bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2">
+            Sign up now!
+          </button>
+        </Link>
       </div>
       <div className="pb-12">
         <Image src={logo} alt="Next.js logo" width={200} />
