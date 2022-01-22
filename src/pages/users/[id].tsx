@@ -1,4 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
+import { createHash } from "crypto";
+import Image from "next/image";
+import { VFC } from "react";
 
 import Head from "../../layouts/Head";
 
@@ -21,13 +24,28 @@ type User = {
 
 type Props = { user: User };
 
+const Gravater: VFC<Props> = ({ user }) => {
+  const gravaterId = createHash("md5")
+    .update(user.email.toLowerCase())
+    .digest("hex");
+  const gravaterUrl = `https://secure.gravatar.com/avatar/${gravaterId}`;
+  return <Image src={gravaterUrl} alt={user.name} width="100%" height="100%" />;
+};
+
 const User: NextPage<Props> = ({ user }) => {
   return (
     <>
-      <div className="pt-14 pb-11">
-        <Head />
-        <h1 className="text-5xl text-center pb-4 font-bold">{user.name}</h1>
-      </div>
+      <Head />
+      <aside className="grid grid-cols-4">
+        <section className="px-2 pt-5">
+          <h1 className="text-2xl text-left pt-0 pb-1">
+            <span className="pr-2">
+              <Gravater user={user} />
+            </span>
+            <span className="align-top">{user.name}</span>
+          </h1>
+        </section>
+      </aside>
     </>
   );
 };
