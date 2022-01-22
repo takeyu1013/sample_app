@@ -16,15 +16,13 @@ const Home: NextPage = () => {
         <h2 className="text-xl text-center text-gray-600 pb-4">
           This is the home page for the sample application.
         </h2>
-        <Link href="/signup">
+        <Link href="/signup" passHref>
           <button className="block mx-auto bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2">
             Sign up now!
           </button>
         </Link>
       </div>
-      <div className="pb-12">
-        <Image src={logo} alt="Next.js logo" width={200} />
-      </div>
+      <Image src={logo} alt="Next.js logo" width={200} />
     </>
   );
 };

@@ -36,7 +36,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       </div>
       <div className="px-12">
         <Component {...pageProps} />
-        <Footer />
+        <div className="pt-11">
+          <Footer />
+        </div>
       </div>
     </>
   );

@@ -7,6 +7,6 @@
     @apply text-5xl tracking-tighter font-bold text-center py-8;
   }
   p {
-    @apply pb-11 text-lg;
+    @apply text-lg;
   }
 }
