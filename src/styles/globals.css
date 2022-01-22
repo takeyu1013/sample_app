@@ -9,4 +9,10 @@
   p {
     @apply text-lg;
   }
+  input {
+    @apply w-full block border border-zinc-400;
+  }
+  label {
+    @apply pb-2 block font-bold;
+  }
 }
