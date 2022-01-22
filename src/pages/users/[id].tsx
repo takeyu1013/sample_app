@@ -35,7 +35,7 @@ const Gravater: VFC<Props> = ({ user }) => {
 const User: NextPage<Props> = ({ user }) => {
   return (
     <>
-      <Head />
+      <Head title={user.name} />
       <aside className="grid grid-cols-4">
         <section className="px-2 pt-5">
           <h1 className="text-2xl text-left pt-0 pb-1">
