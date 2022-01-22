@@ -33,7 +33,7 @@ const Signup: NextPage = () => {
           <input
             className="w-full block mx-auto bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2"
             type="submit"
-            value="Create my accout"
+            value="Create my account"
           />
         </div>
       </form>
