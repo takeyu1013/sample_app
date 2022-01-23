@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import Help from "../pages/static_pages/help";
+
+import Help from "../pages/help";
 
 describe("Help", () => {
   it("should get Help", () => {

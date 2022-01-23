@@ -8,11 +8,10 @@ import Home from "../pages/index";
 
 describe("Home", () => {
   it("should get Home", () => {
-    const { debug } = render(<Home />);
-    debug();
+    render(<Home />);
     expect(
       screen.getByRole("heading", {
-        name: "Sample App",
+        name: /Sample App/,
       })
     ).toBeInTheDocument();
   });
