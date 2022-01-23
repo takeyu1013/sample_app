@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
@@ -12,7 +13,24 @@ type Inputs = {
 
 const Signup: NextPage = () => {
   const { register, handleSubmit, watch } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
+    console.log(data);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users`,
+      {
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    );
+    if (!response.ok) {
+      throw new Error();
+    }
+    const json = await response.json();
+    console.log(json);
+  }, []);
 
   console.log(watch("name"));
 
@@ -31,7 +49,7 @@ const Signup: NextPage = () => {
         <input {...register("passwordConfirmation")} />
         <div className="pt-4">
           <input
-            className="w-full block mx-auto bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2"
+            className="bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2"
             type="submit"
             value="Create my account"
           />
