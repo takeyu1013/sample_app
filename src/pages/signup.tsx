@@ -12,7 +12,12 @@ type Inputs = {
 };
 
 const Signup: NextPage = () => {
-  const { register, handleSubmit, watch } = useForm<Inputs>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
     console.log(data);
     const response = await fetch(
@@ -40,13 +45,22 @@ const Signup: NextPage = () => {
       <h1>Sign up</h1>
       <form className="mx-auto max-w-xl" onSubmit={handleSubmit(onSubmit)}>
         <label>Name</label>
-        <input {...register("name")} />
+        <input {...register("name", { required: true })} />
+        {errors.name && "Name is required"}
         <label className="pt-4">Email</label>
-        <input {...register("email")} />
+        <input {...register("email", { required: true })} />
+        {errors.email && "Email is required"}
         <label className="pt-4">Password</label>
-        <input {...register("password")} />
+        <input {...register("password", { required: true, minLength: 6 })} />
+        {errors.password && "Password is required"}
         <label className="pt-4">Confirmation</label>
-        <input {...register("passwordConfirmation")} />
+        <input
+          {...register("passwordConfirmation", {
+            required: true,
+            minLength: 6,
+          })}
+        />
+        {errors.passwordConfirmation && "Confirmation is required"}
         <div className="pt-4">
           <input
             className="bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2"
