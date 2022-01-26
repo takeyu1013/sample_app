@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
@@ -38,6 +38,8 @@ const Signup: NextPage = () => {
   }, []);
 
   console.log(watch("name"));
+  const password = useRef({});
+  password.current = watch("password", "");
 
   return (
     <>
@@ -48,14 +50,25 @@ const Signup: NextPage = () => {
         <input {...register("name", { required: true })} />
         {errors.name && "Name is required"}
         <label className="pt-4">Email</label>
-        <input {...register("email", { required: true })} />
-        {errors.email && "Email is required"}
+        <input
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Email is invaild",
+            },
+          })}
+        />
+        {errors.email && errors.email.message}
         <label className="pt-4">Password</label>
         <input {...register("password", { required: true, minLength: 6 })} />
         {errors.password && "Password is required"}
         <label className="pt-4">Confirmation</label>
         <input
           {...register("passwordConfirmation", {
+            validate: (value) =>
+              value === password.current ||
+              "Password confirmation doesn't match Password",
             required: true,
             minLength: 6,
           })}
