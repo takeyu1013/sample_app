@@ -61,7 +61,15 @@ const Signup: NextPage = () => {
         />
         {errors.email && errors.email.message}
         <label className="pt-4">Password</label>
-        <input {...register("password", { required: true, minLength: 6 })} />
+        <input
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password is too short(minimum is 6 characters",
+            },
+          })}
+        />
         {errors.password && "Password is required"}
         <label className="pt-4">Confirmation</label>
         <input
