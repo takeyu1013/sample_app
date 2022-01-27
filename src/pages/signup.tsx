@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
 
-type Inputs = {
+export type Inputs = {
   name: string;
   email: string;
   password: string;
