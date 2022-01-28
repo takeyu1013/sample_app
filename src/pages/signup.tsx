@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -11,15 +12,24 @@ export type Inputs = {
   passwordConfirmation: string;
 };
 
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
 const Signup: NextPage = () => {
+  const router = useRouter();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
   } = useForm<Inputs>();
+  const isUser = useCallback((arg: any): arg is User => {
+    return arg.id !== undefined;
+  }, []);
   const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    console.log(data);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users`,
       {
@@ -33,8 +43,10 @@ const Signup: NextPage = () => {
     if (!response.ok) {
       throw new Error();
     }
-    const json = await response.json();
-    console.log(json);
+    const user = await response.json();
+    if (isUser(user)) {
+      router.push(`/users/${user.id}`);
+    }
   }, []);
 
   console.log(watch("name"));
