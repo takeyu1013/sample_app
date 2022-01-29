@@ -2,8 +2,19 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Link from "next/link";
 import Footer from "../layouts/Footer";
+import { NextPage } from "next";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
+export const flashContext = createContext(
+  {} as {
+    flash: string;
+    setFlash: Dispatch<SetStateAction<string>>;
+  }
+);
+
+const App: NextPage<AppProps> = ({ Component, pageProps }) => {
+  const [flash, setFlash] = useState("");
+
   return (
     <>
       <div className="pb-2">
@@ -34,14 +45,21 @@ function MyApp({ Component, pageProps }: AppProps) {
           </nav>
         </header>
       </div>
+      {flash && (
+        <div className="px-12 pb-4">
+          <div className="bg-green-100 rounded p-4 text-green-700">{flash}</div>
+        </div>
+      )}
       <div className="px-12">
-        <Component {...pageProps} />
+        <flashContext.Provider value={{ flash, setFlash }}>
+          <Component {...pageProps} />
+        </flashContext.Provider>
         <div className="pt-11">
           <Footer />
         </div>
       </div>
     </>
   );
-}
+};
 
-export default MyApp;
+export default App;

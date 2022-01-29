@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useRef } from "react";
+import { useCallback, useContext, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
+import { flashContext } from "./_app";
 
 export type Inputs = {
   name: string;
@@ -29,25 +30,33 @@ const Signup: NextPage = () => {
   const isUser = useCallback((arg: any): arg is User => {
     return arg.id !== undefined;
   }, []);
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users`,
-      {
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
+  const { setFlash } = useContext(flashContext);
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async (data) => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users`,
+        {
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }
+      );
+      if (!response.ok) {
+        throw new Error();
       }
-    );
-    if (!response.ok) {
-      throw new Error();
-    }
-    const user = await response.json();
-    if (isUser(user)) {
-      router.push(`/users/${user.id}`);
-    }
-  }, []);
+      const user = await response.json();
+      if (isUser(user)) {
+        router.push(`/users/${user.id}`);
+        setFlash("Welcome to the Sample App!");
+        setTimeout(() => {
+          setFlash("");
+        }, 5000);
+      }
+    },
+    [router, isUser, setFlash]
+  );
 
   console.log(watch("name"));
   const password = useRef({});
