@@ -60,7 +60,7 @@ const Login: NextPage = () => {
             },
           })}
         />
-        {errors.password && "Password is required"}
+        {errors.password && errors.password.message}
         <div className="pt-4">
           <input
             className="bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2"
