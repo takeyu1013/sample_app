@@ -37,7 +37,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
                 </Link>
               </li>
               <li>
-                <Link href="#">
+                <Link href="/login">
                   <a>Log in</a>
                 </Link>
               </li>
