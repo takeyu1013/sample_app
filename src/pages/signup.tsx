@@ -83,6 +83,7 @@ const Signup: NextPage = () => {
         {errors.email && errors.email.message}
         <label className="pt-4">Password</label>
         <input
+          type="password"
           {...register("password", {
             required: "Password is required",
             minLength: {
@@ -94,6 +95,7 @@ const Signup: NextPage = () => {
         {errors.password && "Password is required"}
         <label className="pt-4">Confirmation</label>
         <input
+          type="password"
           {...register("passwordConfirmation", {
             validate: (value) =>
               value === password.current ||
