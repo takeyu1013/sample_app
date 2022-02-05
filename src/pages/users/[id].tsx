@@ -7,14 +7,17 @@ import { parseCookies } from "nookies";
 import Head from "../../layouts/Head";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookie = parseCookies(context);
+  const { token } = parseCookies(context);
   const { id } = context.query;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users/${id}`,
-    { headers: { Authorization: `Bearer: ${cookie.token}` } }
-  );
-  console.log(`token: ${cookie.token}`);
-  const user = await res.json();
+  const response = await fetch(`http://localhost:3001/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const user = await response.json();
   return {
     props: { user },
   };
