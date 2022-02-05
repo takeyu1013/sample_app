@@ -19,25 +19,28 @@ const Login: NextPage = () => {
     handleSubmit,
   } = useForm<Inputs>();
   const router = useRouter();
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_HOST}/login`,
-      {
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async (data) => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST}/login`,
+        {
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }
+      );
+      if (!response.ok) {
+        throw new Error();
       }
-    );
-    if (!response.ok) {
-      throw new Error();
-    }
-    const user: { id: string; email: string; token: string } =
-      await response.json();
-    setCookie(null, "token", user.token);
-    router.push(`users/${user.id}`);
-  }, []);
+      const { id, token }: { id: string; token: string } =
+        await response.json();
+      setCookie(null, "token", token);
+      router.push(`users/${id}`);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -58,6 +61,7 @@ const Login: NextPage = () => {
         {errors.email && errors.email.message}
         <label className="pt-4 pb-1">Password</label>
         <input
+          type="password"
           className="px-4 py-2 rounded"
           {...register("password", {
             required: "Password is required",
