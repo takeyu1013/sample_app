@@ -2,14 +2,18 @@ import type { GetServerSideProps, NextPage } from "next";
 import { createHash } from "crypto";
 import Image from "next/image";
 import { VFC } from "react";
+import { parseCookies } from "nookies";
 
 import Head from "../../layouts/Head";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookie = parseCookies(context);
   const { id } = context.query;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users/${id}`
+    `${process.env.NEXT_PUBLIC_BACKEND_HOST}/users/${id}`,
+    { headers: { Authorization: `Bearer: ${cookie.token}` } }
   );
+  console.log(`token: ${cookie.token}`);
   const user = await res.json();
   return {
     props: { user },

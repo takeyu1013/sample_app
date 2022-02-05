@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { setCookie } from "nookies";
 
 import Head from "../layouts/Head";
 
@@ -16,6 +18,7 @@ const Login: NextPage = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<Inputs>();
+  const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_HOST}/login`,
@@ -30,6 +33,10 @@ const Login: NextPage = () => {
     if (!response.ok) {
       throw new Error();
     }
+    const user: { id: string; email: string; token: string } =
+      await response.json();
+    setCookie(null, "token", user.token);
+    router.push(`users/${user.id}`);
   }, []);
 
   return (
