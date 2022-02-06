@@ -14,9 +14,10 @@ test("login with invalid information", async () => {
   await page.locator("input").first().fill("example@railstutorial.org");
   await page.locator("input").nth(1).fill("aaaaaa");
   await page.click('input[type="submit"]');
-  await expect(
-    page.locator("p:has-text('Invalid email/password combination')").first()
-  ).toBeVisible();
+  const error = "Invalid email/password combination";
+  await expect(page.locator(`p:has-text('${error}')`).first()).toBeVisible();
+  await page.goto("/");
+  await expect(page.locator("p")).not.toHaveText(error);
   await context.close();
   await browser.close();
 });
