@@ -1,25 +1,26 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setCookie } from "nookies";
 
 import Head from "../layouts/Head";
 
-export type Inputs = {
+export type Input = {
   email: string;
   password: string;
 };
 
 const Login: NextPage = () => {
+  const [error, setError] = useState("");
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<Inputs>();
+  } = useForm<Input>();
   const router = useRouter();
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<Input> = useCallback(
     async (data) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_HOST}/login`,
@@ -32,7 +33,8 @@ const Login: NextPage = () => {
         }
       );
       if (!response.ok) {
-        throw new Error();
+        setError("Invalid email/password combination");
+        return;
       }
       const { id, token }: { id: string; token: string } =
         await response.json();
@@ -45,6 +47,7 @@ const Login: NextPage = () => {
   return (
     <>
       <Head title="Log in" />
+      {error && <p className="bg-red-100 p-4 rounded text-red-700">{error}</p>}
       <h1>Log in</h1>
       <form className="mx-auto max-w-xl" onSubmit={handleSubmit(onSubmit)}>
         <label className="pt-4 pb-1">Email</label>
