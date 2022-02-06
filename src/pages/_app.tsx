@@ -4,16 +4,37 @@ import Link from "next/link";
 import Footer from "../layouts/Footer";
 import { NextPage } from "next";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { destroyCookie, parseCookies } from "nookies";
 
-export const flashContext = createContext(
-  {} as {
-    flash: string;
-    setFlash: Dispatch<SetStateAction<string>>;
-  }
-);
+type FlashContextType = {
+  flash: string;
+  setFlash: Dispatch<SetStateAction<string>>;
+};
+
+const FlashContext = createContext<FlashContextType>({
+  flash: "",
+  setFlash: () => undefined,
+});
+
+type ContextType = {
+  isLoggedIn: boolean;
+  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+};
+
+const initialContext = {
+  isLoggedIn: false,
+  setIsLoggedIn: () => undefined,
+};
+
+export const Context = createContext<ContextType>(initialContext);
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const [flash, setFlash] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
+  const handleAuth = () => {
+    destroyCookie(null, "token");
+    setIsLoggedIn(false);
+  };
 
   return (
     <>
@@ -37,9 +58,13 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/login">
-                  <a>Log in</a>
-                </Link>
+                {isLoggedIn ? (
+                  <button onClick={handleAuth}>Log out</button>
+                ) : (
+                  <Link href="/login">
+                    <a>Log in</a>
+                  </Link>
+                )}
               </li>
             </ul>
           </nav>
@@ -51,9 +76,11 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
         </div>
       )}
       <div className="px-12">
-        <flashContext.Provider value={{ flash, setFlash }}>
-          <Component {...pageProps} />
-        </flashContext.Provider>
+        <FlashContext.Provider value={{ flash, setFlash }}>
+          <Context.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+            <Component {...pageProps} />
+          </Context.Provider>
+        </FlashContext.Provider>
         <div className="pt-11">
           <Footer />
         </div>

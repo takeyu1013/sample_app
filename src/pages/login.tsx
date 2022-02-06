@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setCookie } from "nookies";
 
 import Head from "../layouts/Head";
+import { Context } from "./_app";
 
 export type Input = {
   email: string;
@@ -14,6 +15,7 @@ export type Input = {
 
 const Login: NextPage = () => {
   const [error, setError] = useState("");
+  const { setIsLoggedIn } = useContext(Context);
   const {
     register,
     formState: { errors },
@@ -39,6 +41,7 @@ const Login: NextPage = () => {
       const { id, token }: { id: string; token: string } =
         await response.json();
       setCookie(null, "token", token);
+      setIsLoggedIn(true);
       router.push(`users/${id}`);
     },
     [router]
