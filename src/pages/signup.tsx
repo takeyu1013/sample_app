@@ -4,7 +4,7 @@ import { useCallback, useContext, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
-import { flashContext } from "./_app";
+import { FlashContext } from "./_app";
 
 export type Inputs = {
   name: string;
@@ -30,7 +30,7 @@ const Signup: NextPage = () => {
   const isUser = useCallback((arg: any): arg is User => {
     return arg.id !== undefined;
   }, []);
-  const { setFlash } = useContext(flashContext);
+  const { setFlash } = useContext(FlashContext);
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
       const response = await fetch(

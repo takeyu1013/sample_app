@@ -11,7 +11,7 @@ type FlashContextType = {
   setFlash: Dispatch<SetStateAction<string>>;
 };
 
-const FlashContext = createContext<FlashContextType>({
+export const FlashContext = createContext<FlashContextType>({
   flash: "",
   setFlash: () => undefined,
 });
