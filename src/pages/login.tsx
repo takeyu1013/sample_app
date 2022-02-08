@@ -7,6 +7,7 @@ import { setCookie } from "nookies";
 
 import Head from "../layouts/Head";
 import { Context } from "./_app";
+import User from "./users/[id]";
 
 export type Input = {
   email: string;
@@ -15,7 +16,7 @@ export type Input = {
 
 const Login: NextPage = () => {
   const [error, setError] = useState("");
-  const { setIsLoggedIn } = useContext(Context);
+  const { setIsLoggedIn, setCurrentUser } = useContext(Context);
   const {
     register,
     formState: { errors },
@@ -41,7 +42,10 @@ const Login: NextPage = () => {
       const { id, token }: { id: string; token: string } =
         await response.json();
       setCookie(null, "token", token);
+      const user: User = { id: Number(id), name: "", email: data.email };
+      setCurrentUser(user);
       setIsLoggedIn(true);
+
       router.push(`users/${id}`);
     },
     [router]

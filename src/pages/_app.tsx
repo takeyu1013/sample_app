@@ -5,6 +5,7 @@ import Footer from "../layouts/Footer";
 import { NextPage } from "next";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import { destroyCookie, parseCookies } from "nookies";
+import User from "./users/[id]";
 
 type FlashContextType = {
   flash: string;
@@ -16,14 +17,20 @@ export const FlashContext = createContext<FlashContextType>({
   setFlash: () => undefined,
 });
 
+type CurrentUser = undefined | null | User;
+
 type ContextType = {
   isLoggedIn: boolean;
+  currentUser: CurrentUser;
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+  setCurrentUser: Dispatch<SetStateAction<CurrentUser>>;
 };
 
 const initialContext = {
   isLoggedIn: false,
+  currentUser: undefined,
   setIsLoggedIn: () => undefined,
+  setCurrentUser: () => undefined,
 };
 
 export const Context = createContext<ContextType>(initialContext);
@@ -31,8 +38,12 @@ export const Context = createContext<ContextType>(initialContext);
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const [flash, setFlash] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
+  const [currentUser, setCurrentUser] = useState<ContextType["currentUser"]>(
+    initialContext.currentUser
+  );
   const handleAuth = () => {
     destroyCookie(null, "token");
+    setCurrentUser(undefined);
     setIsLoggedIn(false);
   };
 
@@ -77,7 +88,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
       )}
       <div className="px-12">
         <FlashContext.Provider value={{ flash, setFlash }}>
-          <Context.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+          <Context.Provider
+            value={{ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }}
+          >
             <Component {...pageProps} />
           </Context.Provider>
         </FlashContext.Provider>
