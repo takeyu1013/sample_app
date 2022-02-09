@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setCookie } from "nookies";
+import { verify } from "jsonwebtoken";
 
 import Head from "../layouts/Head";
 import { Context } from "./_app";
@@ -42,6 +43,7 @@ const Login: NextPage = () => {
       const { id, token }: { id: string; token: string } =
         await response.json();
       setCookie(null, "token", token);
+      console.log(verify(token, "secret"));
       const user: User = { id: Number(id), name: "", email: data.email };
       setCurrentUser(user);
       setIsLoggedIn(true);
