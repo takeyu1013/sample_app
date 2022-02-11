@@ -58,21 +58,20 @@ const Account: VFC<ContextType> = ({ currentUser, setCurrentUser }) => {
             <Menu.Item>
               {() => (
                 <div className="hover:bg-gray-200 px-4 py-1">
-                  <a
-                    href={`/users/${currentUser.id}`}
-                    className="block text-black"
-                  >
-                    Profile
-                  </a>
+                  <Link href={`/users/${currentUser.id}`}>
+                    <a className="block text-black">Profile</a>
+                  </Link>
                 </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {() => (
                 <div className="hover:bg-gray-200 px-4 py-1">
-                  <a href="#" className="block text-black">
-                    Settings
-                  </a>
+                  <Link href="#">
+                    <a href="#" className="block text-black">
+                      Settings
+                    </a>
+                  </Link>
                 </div>
               )}
             </Menu.Item>
@@ -81,11 +80,7 @@ const Account: VFC<ContextType> = ({ currentUser, setCurrentUser }) => {
             <Menu.Item>
               {() => (
                 <div className="hover:bg-gray-200 px-4 py-1">
-                  <button
-                    type="submit"
-                    className="block text-black"
-                    onClick={logout}
-                  >
+                  <button className="block text-black" onClick={logout}>
                     Log out
                   </button>
                 </div>
