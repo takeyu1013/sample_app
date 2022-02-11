@@ -58,7 +58,10 @@ const Account: VFC<ContextType> = ({ currentUser, setCurrentUser }) => {
             <Menu.Item>
               {() => (
                 <div className="hover:bg-gray-200 px-4 py-1">
-                  <a href="#" className="block text-black">
+                  <a
+                    href={`/users/${currentUser.id}`}
+                    className="block text-black"
+                  >
                     Profile
                   </a>
                 </div>
@@ -124,6 +127,11 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
               <li>
                 <Link href="/help">
                   <a>Help</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="#">
+                  <a>Users</a>
                 </Link>
               </li>
               <li>
