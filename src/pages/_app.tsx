@@ -3,8 +3,17 @@ import type { AppProps } from "next/app";
 import Link from "next/link";
 import Footer from "../layouts/Footer";
 import { NextPage } from "next";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useState,
+  VFC,
+} from "react";
 import { destroyCookie } from "nookies";
+import { Menu } from "@headlessui/react";
+
 import User from "./users/[id]";
 
 type FlashContextType = {
@@ -31,15 +40,70 @@ const initialContext = {
 
 export const Context = createContext<ContextType>(initialContext);
 
+const Account: VFC<ContextType> = ({ currentUser, setCurrentUser }) => {
+  const logout = useCallback(() => {
+    destroyCookie(null, "token");
+    setCurrentUser(undefined);
+  }, [setCurrentUser]);
+
+  return currentUser ? (
+    <>
+      <Menu as="div" className="relative inline-block text-left">
+        <div>
+          <Menu.Button className="">Account</Menu.Button>
+        </div>
+
+        <Menu.Items className="inline-block py-1 origin-top-right w-24 absolute top-10 right-0 rounded shadow bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
+          <div className="py-1">
+            <Menu.Item>
+              {() => (
+                <div className="hover:bg-gray-200 px-4 py-1">
+                  <a href="#" className="block text-black">
+                    Profile
+                  </a>
+                </div>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {() => (
+                <div className="hover:bg-gray-200 px-4 py-1">
+                  <a href="#" className="block text-black">
+                    Settings
+                  </a>
+                </div>
+              )}
+            </Menu.Item>
+          </div>
+          <div className="py-1">
+            <Menu.Item>
+              {() => (
+                <div className="hover:bg-gray-200 px-4 py-1">
+                  <button
+                    type="submit"
+                    className="block text-black"
+                    onClick={logout}
+                  >
+                    Log out
+                  </button>
+                </div>
+              )}
+            </Menu.Item>
+          </div>
+        </Menu.Items>
+      </Menu>
+    </>
+  ) : (
+    <Link href="/login">
+      <a>Log in</a>
+    </Link>
+  );
+};
+
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const [flash, setFlash] = useState("");
   const [currentUser, setCurrentUser] = useState<ContextType["currentUser"]>(
     initialContext.currentUser
   );
-  const logout = () => {
-    destroyCookie(null, "token");
-    setCurrentUser(undefined);
-  };
 
   return (
     <>
@@ -63,13 +127,10 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
                 </Link>
               </li>
               <li>
-                {currentUser ? (
-                  <button onClick={logout}>Log out</button>
-                ) : (
-                  <Link href="/login">
-                    <a>Log in</a>
-                  </Link>
-                )}
+                <Account
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
               </li>
             </ul>
           </nav>
