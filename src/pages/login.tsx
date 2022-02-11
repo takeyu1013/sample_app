@@ -50,7 +50,7 @@ const Login: NextPage = () => {
 
       router.push(`users/${id}`);
     },
-    [router]
+    [router, setIsLoggedIn, setCurrentUser]
   );
 
   return (
