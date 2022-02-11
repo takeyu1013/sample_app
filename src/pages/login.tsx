@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setCookie } from "nookies";
-import { verify } from "jsonwebtoken";
 
 import Head from "../layouts/Head";
 import { Context } from "./_app";
@@ -17,7 +16,7 @@ export type Input = {
 
 const Login: NextPage = () => {
   const [error, setError] = useState("");
-  const { setIsLoggedIn, setCurrentUser } = useContext(Context);
+  const { setCurrentUser } = useContext(Context);
   const {
     register,
     formState: { errors },
@@ -40,17 +39,15 @@ const Login: NextPage = () => {
         setError("Invalid email/password combination");
         return;
       }
-      const { id, token }: { id: string; token: string } =
+      const { id, name, token }: { id: string; name: string; token: string } =
         await response.json();
       setCookie(null, "token", token);
-      console.log(verify(token, "secret"));
-      const user: User = { id: Number(id), name: "", email: data.email };
+      const user: User = { id: Number(id), email: data.email, name };
       setCurrentUser(user);
-      setIsLoggedIn(true);
 
       router.push(`users/${id}`);
     },
-    [router, setIsLoggedIn, setCurrentUser]
+    [router, setCurrentUser]
   );
 
   return (

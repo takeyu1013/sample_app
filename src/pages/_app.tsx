@@ -20,16 +20,12 @@ export const FlashContext = createContext<FlashContextType>({
 type CurrentUser = undefined | null | User;
 
 type ContextType = {
-  isLoggedIn: boolean;
   currentUser: CurrentUser;
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
   setCurrentUser: Dispatch<SetStateAction<CurrentUser>>;
 };
 
 const initialContext = {
-  isLoggedIn: false,
   currentUser: undefined,
-  setIsLoggedIn: () => undefined,
   setCurrentUser: () => undefined,
 };
 
@@ -37,14 +33,12 @@ export const Context = createContext<ContextType>(initialContext);
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const [flash, setFlash] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
   const [currentUser, setCurrentUser] = useState<ContextType["currentUser"]>(
     initialContext.currentUser
   );
   const logout = () => {
     destroyCookie(null, "token");
     setCurrentUser(undefined);
-    setIsLoggedIn(false);
   };
 
   return (
@@ -69,7 +63,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
                 </Link>
               </li>
               <li>
-                {isLoggedIn ? (
+                {currentUser ? (
                   <button onClick={logout}>Log out</button>
                 ) : (
                   <Link href="/login">
@@ -88,9 +82,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
       )}
       <div className="px-12">
         <FlashContext.Provider value={{ flash, setFlash }}>
-          <Context.Provider
-            value={{ isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser }}
-          >
+          <Context.Provider value={{ currentUser, setCurrentUser }}>
             <Component {...pageProps} />
           </Context.Provider>
         </FlashContext.Provider>
