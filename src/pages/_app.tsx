@@ -4,7 +4,7 @@ import Link from "next/link";
 import Footer from "../layouts/Footer";
 import { NextPage } from "next";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { destroyCookie, parseCookies } from "nookies";
+import { destroyCookie } from "nookies";
 import User from "./users/[id]";
 
 type FlashContextType = {
@@ -41,7 +41,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const [currentUser, setCurrentUser] = useState<ContextType["currentUser"]>(
     initialContext.currentUser
   );
-  const handleAuth = () => {
+  const logout = () => {
     destroyCookie(null, "token");
     setCurrentUser(undefined);
     setIsLoggedIn(false);
@@ -70,7 +70,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
               </li>
               <li>
                 {isLoggedIn ? (
-                  <button onClick={handleAuth}>Log out</button>
+                  <button onClick={logout}>Log out</button>
                 ) : (
                   <Link href="/login">
                     <a>Log in</a>
