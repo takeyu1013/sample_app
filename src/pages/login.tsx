@@ -7,8 +7,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Head from "../layouts/Head";
 import { Context } from "./_app";
 import User from "./users/[id]";
-import { login } from "../utils/login";
-import type { Inputs } from "../utils/login";
+import { login } from "../utils/session";
+import type { Inputs } from "../utils/session";
 
 const Login: NextPage = () => {
   const [error, setError] = useState("");

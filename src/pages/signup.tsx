@@ -4,7 +4,7 @@ import { useCallback, useContext, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
-import { login } from "../utils/login";
+import { login } from "../utils/session";
 import { Context, FlashContext } from "./_app";
 
 export type Inputs = {
