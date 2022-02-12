@@ -70,7 +70,6 @@ const Signup: NextPage = () => {
     [router, isUser, setFlash, setCurrentUser]
   );
 
-  console.log(watch("name"));
   const password = useRef({});
   password.current = watch("password", "");
 
