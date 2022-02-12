@@ -3,16 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { setCookie } from "nookies";
 
 import Head from "../layouts/Head";
 import { Context } from "./_app";
 import User from "./users/[id]";
-
-export type Input = {
-  email: string;
-  password: string;
-};
+import { login } from "../utils/login";
+import type { Inputs } from "../utils/login";
 
 const Login: NextPage = () => {
   const [error, setError] = useState("");
@@ -21,30 +17,17 @@ const Login: NextPage = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<Input>();
+  } = useForm<Inputs>();
   const router = useRouter();
-  const onSubmit: SubmitHandler<Input> = useCallback(
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_HOST}/login`,
-        {
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      );
-      if (!response.ok) {
+      const { id, name } = await login(data);
+      if (!id) {
         setError("Invalid email/password combination");
         return;
       }
-      const { id, name, token }: { id: string; name: string; token: string } =
-        await response.json();
-      setCookie(null, "token", token);
       const user: User = { id: Number(id), email: data.email, name };
       setCurrentUser(user);
-
       router.push(`users/${id}`);
     },
     [router, setCurrentUser]

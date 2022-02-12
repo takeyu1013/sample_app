@@ -4,7 +4,8 @@ import { useCallback, useContext, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Head from "../layouts/Head";
-import { FlashContext } from "./_app";
+import { login } from "../utils/login";
+import { Context, FlashContext } from "./_app";
 
 export type Inputs = {
   name: string;
@@ -27,6 +28,7 @@ const Signup: NextPage = () => {
     handleSubmit,
     watch,
   } = useForm<Inputs>();
+  const { setCurrentUser } = useContext(Context);
   const isUser = useCallback((arg: any): arg is User => {
     return arg.id !== undefined;
   }, []);
@@ -48,14 +50,24 @@ const Signup: NextPage = () => {
       }
       const user = await response.json();
       if (isUser(user)) {
-        router.push(`/users/${user.id}`);
+        const { id } = await login({
+          email: data.email,
+          password: data.password,
+        });
+        const user: User = {
+          id: Number(id),
+          email: data.email,
+          name: data.name,
+        };
+        setCurrentUser(user);
+        router.push(`/users/${id}`);
         setFlash("Welcome to the Sample App!");
         setTimeout(() => {
           setFlash("");
         }, 5000);
       }
     },
-    [router, isUser, setFlash]
+    [router, isUser, setFlash, setCurrentUser]
   );
 
   console.log(watch("name"));
