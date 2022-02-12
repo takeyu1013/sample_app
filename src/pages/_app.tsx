@@ -15,6 +15,7 @@ import { destroyCookie } from "nookies";
 import { Menu } from "@headlessui/react";
 
 import User from "./users/[id]";
+import { useRouter } from "next/router";
 
 type FlashContextType = {
   flash: string;
@@ -41,10 +42,13 @@ const initialContext = {
 export const Context = createContext<ContextType>(initialContext);
 
 const Account: VFC<ContextType> = ({ currentUser, setCurrentUser }) => {
+  const router = useRouter();
   const logout = useCallback(() => {
+    const path = "/";
     destroyCookie(null, "token");
     setCurrentUser(undefined);
-  }, [setCurrentUser]);
+    router.push(path);
+  }, [setCurrentUser, router]);
 
   return currentUser ? (
     <>
